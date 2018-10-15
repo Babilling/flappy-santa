@@ -31,10 +31,7 @@ game.BirdEntity = me.Entity.extend({
         // collision shape
         this.collided = false;
 
-        this.gravityForce = 0.3;
-
-        this.velY = 0;
-        this.jumpForce = 5;
+        this.gravityForce = 0.2;
     },
 
     update: function(dt) {
@@ -46,37 +43,30 @@ game.BirdEntity = me.Entity.extend({
         this.renderable.currentTransform.identity();
         if (me.input.isKeyPressed('fly')) {
             me.audio.play('wing');
-            //this.gravityForce = 0.2;
+            this.gravityForce = 0.2;
             var currentPos = this.pos.y;
 
-            //this.angleTween.stop();
-            //this.flyTween.stop();
+            this.angleTween.stop();
+            this.flyTween.stop();
 
-            //this.flyTween.to({y: currentPos - 72}, 50);
-            //this.flyTween.start();
 
-            this.velY = -this.jumpForce
+            this.flyTween.to({y: currentPos - 72}, 50);
+            this.flyTween.start();
 
-            //this.angleTween.to({currentAngle: that.maxAngleRotation}, 50).onComplete(function(angle) {
-            //    that.renderable.currentTransform.rotate(that.maxAngleRotation);
-            //})
-            //this.angleTween.start();
+            this.angleTween.to({currentAngle: that.maxAngleRotation}, 50).onComplete(function(angle) {
+                that.renderable.currentTransform.rotate(that.maxAngleRotation);
+            })
+            this.angleTween.start();
 
         } else {
-            //this.gravityForce += 0.2;
-            //this.pos.y += me.timer.tick * this.gravityForce;
-            this.pos.y += this.velY;
-            this.velY += this.gravityForce;
-
-            //this.currentAngle += Number.prototype.degToRad(3);
-            //if (this.currentAngle >= this.maxAngleRotationDown) {
-            //    this.renderable.currentTransform.identity();
-            //    this.currentAngle = this.maxAngleRotationDown;
-            //}
+            this.gravityForce += 0.2;
+            this.pos.y += me.timer.tick * this.gravityForce;
+            this.currentAngle += Number.prototype.degToRad(3);
+            if (this.currentAngle >= this.maxAngleRotationDown) {
+                this.renderable.currentTransform.identity();
+                this.currentAngle = this.maxAngleRotationDown;
+            }
         }
-        // This is not the best solution, should be changed ...
-        this.currentAngle = this.velY * 0.08
-
         this.renderable.currentTransform.rotate(this.currentAngle);
         me.Rect.prototype.updateBounds.apply(this);
 
