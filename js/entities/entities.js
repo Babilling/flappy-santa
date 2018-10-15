@@ -180,7 +180,7 @@ game.PipeGenerator = me.Renderable.extend({
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);
             var hitPos = posY - 100;
             var hit = new me.pool.pull("hit", this.posX, hitPos);
-            pipe1.renderable.currentTransform.scaleY(-1);
+            //pipe1.renderable.currentTransform.scaleY(-1);
             me.game.world.addChild(pipe1, 10);
             me.game.world.addChild(pipe2, 10);
             me.game.world.addChild(hit, 11);
