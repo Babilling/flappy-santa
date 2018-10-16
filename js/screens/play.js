@@ -22,11 +22,7 @@ game.PlayScreen = me.ScreenObject.extend({
 
         me.game.world.addChild(new BackgroundLayer('bg', 1));
 
-        this.ground1 = me.pool.pull('ground', 0, me.game.viewport.height - 96);
-        this.ground2 = me.pool.pull('ground', me.game.viewport.width,
-            me.game.viewport.height - 96);
-        me.game.world.addChild(this.ground1, 11);
-        me.game.world.addChild(this.ground2, 11);
+
 
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD, 11);
@@ -59,8 +55,7 @@ game.PlayScreen = me.ScreenObject.extend({
         // free the stored instance
         this.HUD = null;
         this.bird = null;
-        this.ground1 = null;
-        this.ground2 = null;
+
         me.input.unbindKey(me.input.KEY.SPACE);
         me.input.unbindPointer(me.input.pointer.LEFT);
     }

@@ -13,7 +13,7 @@ var game = {
         {name: "clumsy", type:"image", src: "data/img/clumsy.png"},
         {name: "pipe", type:"image", src: "data/img/pipe.png"},
         {name: "logo", type:"image", src: "data/img/logo.png"},
-        {name: "ground", type:"image", src: "data/img/ground.png"},
+
         {name: "gameover", type:"image", src: "data/img/gameover.png"},
         {name: "gameoverbg", type:"image", src: "data/img/gameoverbg.png"},
         {name: "hit", type:"image", src: "data/img/hit.png"},
@@ -30,7 +30,7 @@ var game = {
     ],
 
     "onload": function() {
-        if (!me.video.init(900, 600, {
+        if (!me.video.init(900, 504, {
             wrapper: "screen",
             scale : "auto",
             scaleMethod: "fit"
@@ -54,7 +54,7 @@ var game = {
         me.pool.register("clumsy", game.BirdEntity);
         me.pool.register("pipe", game.PipeEntity, true);
         me.pool.register("hit", game.HitEntity, true);
-        me.pool.register("ground", game.Ground, true);
+
 
         me.state.change(me.state.MENU);
     }

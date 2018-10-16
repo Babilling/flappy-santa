@@ -81,7 +81,8 @@ game.BirdEntity = me.Entity.extend({
         me.Rect.prototype.updateBounds.apply(this);
 
         var hitSky = -80; // bird height + 20px
-        if (this.pos.y <= hitSky || this.collided) {
+		var hitGround = 504; // heightof the background img
+        if (this.pos.y <= hitSky || this.pos.y >= hitGround || this.collided) {
             game.data.start = false;
             me.audio.play("lose");
             this.endAnimation();
@@ -93,7 +94,7 @@ game.BirdEntity = me.Entity.extend({
 
     onCollision: function(response) {
         var obj = response.b;
-        if (obj.type === 'pipe' || obj.type === 'ground') {
+        if (obj.type === 'pipe') {
             me.device.vibrate(500);
             this.collided = true;
         }
@@ -165,16 +166,19 @@ game.PipeGenerator = me.Renderable.extend({
         this.alwaysUpdate = true;
         this.generate = 0;
         this.pipeFrequency = 92;
-        this.pipeHoleSize = 1240;
+        this.pipeHoleSize = 1340;
         this.posX = me.game.viewport.width;
     },
 
     update: function(dt) {
         if (this.generate++ % this.pipeFrequency == 0) {
             var posY = Number.prototype.random(
-                    me.video.renderer.getHeight() - 100,
+                    me.video.renderer.getHeight() - 20,
                     200
             );
+			if (game.data.steps % 1 == 0 && this.pipeHoleSize > 1290) {
+				this.pipeHoleSize = this.pipeHoleSize - 10;
+			}
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);
@@ -223,27 +227,3 @@ game.HitEntity = me.Entity.extend({
 
 });
 
-game.Ground = me.Entity.extend({
-    init: function(x, y) {
-        var settings = {};
-        settings.image = me.loader.getImage('ground');
-        settings.width = 900;
-        settings.height= 96;
-        this._super(me.Entity, 'init', [x, y, settings]);
-        this.alwaysUpdate = true;
-        this.body.gravity = 0;
-        this.body.vel.set(-4, 0);
-        this.type = 'ground';
-    },
-
-    update: function(dt) {
-        // mechanics
-        this.pos.add(this.body.vel);
-        if (this.pos.x < -this.renderable.width) {
-            this.pos.x = me.video.renderer.getWidth() - 10;
-        }
-        me.Rect.prototype.updateBounds.apply(this);
-        return this._super(me.Entity, 'update', [dt]);
-    },
-
-});
