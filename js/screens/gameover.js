@@ -63,7 +63,7 @@ game.GameOverScreen = me.ScreenObject.extend({
                 );
                 this.font = new me.Font('gamefont', 40, 'black', 'left');
                 this.steps = 'Score : ' + game.data.steps.toString();
-                this.topSteps= 'High Score : ' + me.save.topSteps.toString();
+                this.topSteps= 'Personal best : ' + me.save.topSteps.toString();
             },
 
             draw: function (renderer) {
