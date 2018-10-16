@@ -81,7 +81,7 @@ game.BirdEntity = me.Entity.extend({
         me.Rect.prototype.updateBounds.apply(this);
 
         var hitSky = -80; // bird height + 20px
-		var hitGround = 504; // heightof the background img
+		var hitGround = 584; // heightof the background img
         if (this.pos.y <= hitSky || this.pos.y >= hitGround || this.collided) {
             game.data.start = false;
             me.audio.play("lose");
@@ -176,7 +176,7 @@ game.PipeGenerator = me.Renderable.extend({
                     me.video.renderer.getHeight() - 20,
                     200
             );
-			if (game.data.steps % 1 == 0 && this.pipeHoleSize > 1290) {
+			if (game.data.steps % 10 == 0 && this.pipeHoleSize > 1290) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
 			}
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
