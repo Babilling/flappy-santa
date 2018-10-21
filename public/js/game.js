@@ -55,7 +55,6 @@ var game = {
         me.pool.register("pipe", game.PipeEntity, true);
         me.pool.register("hit", game.HitEntity, true);
 
-
         me.state.change(me.state.MENU);
     }
 };

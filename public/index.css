@@ -55,3 +55,34 @@ body {
   position: absolute;
   left:23%;
 }
+
+.title {
+  font-size: 7em;
+  font-family: 'gamefont';
+  display: block;
+  margin:auto;
+  text-align: center;
+}
+
+.pseudo {
+  font-size: 5em;
+  font-family: 'gamefont';
+  display: block;
+  margin:auto;
+}
+
+.info {
+  font-size: 3em;
+  font-family: 'gamefont';
+  display: block;
+  margin:auto;
+  text-align: center;
+}
+
+#pseudo {
+  background: url("/data/img/bg.png") no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}

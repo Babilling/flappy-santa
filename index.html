@@ -22,26 +22,53 @@
     </head>
 
     <body>
+        <div id="pseudo" style="display:none">
+            <div class="title">Flappy Bat</div>
+            <input id="pseudotxt" type="text" required placeholder="Pseudo" class="pseudo"/>
+            <input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudo"/>
+            <input type="button" value="Jouer !" class="pseudo" onclick="register()" >
+            <div class="info">Entre un pseudo et un mot de passe pour jouer :)</div>
+        </div>
         <!-- Canvas placeholder -->
-        <div id="screen"></div>
+        <div id="screen" style="display:none"></div>
 
+        <script src="/socket.io/socket.io.js"></script>
+        <script type="text/javascript">
+            var socket = io(); 
+            socket.on('start', function(auth, err){
+                if (auth){
+                    document.getElementById('pseudo').style["display"] = "none";
+                    document.getElementById('screen').style["display"] = "block";
+                    localStorage.setItem('me.save.pseudo', document.getElementById('pseudotxt').value);
+                    localStorage.setItem('me.save.pwd', document.getElementById('pseudopwd').value);
+                }
+                else alert(err);
+            });
+
+            function register() {
+                socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
+            }
+        </script>
         <!-- melonJS Library -->
-        <script type="text/javascript" src="js/melonJS-min.js" ></script>
+        <script type="text/javascript" src="/js/melonJS-min.js" ></script>
         <!-- The game -->
-        <script type="text/javascript" src="js/game.js" ></script>
+        <script type="text/javascript" src="/js/game.js" ></script>
         <!-- entities -->
-        <script type="text/javascript" src="js/entities/entities.js" ></script>
-        <script type="text/javascript" src="js/entities/HUD.js" ></script>
+        <script type="text/javascript" src="/js/entities/entities.js" ></script>
+        <script type="text/javascript" src="/js/entities/HUD.js" ></script>
         <!-- screens -->
-        <script type="text/javascript" src="js/screens/gameover.js" ></script>
-        <script type="text/javascript" src="js/screens/play.js" ></script>
-        <script type="text/javascript" src="js/screens/title.js" ></script>
+        <script type="text/javascript" src="/js/screens/gameover.js" ></script>
+        <script type="text/javascript" src="/js/screens/play.js" ></script>
+        <script type="text/javascript" src="/js/screens/title.js" ></script>
         <!-- onload trigger -->
         <script type="text/javascript">
             window.onReady(function onReady() {
+                if (localStorage.getItem('me.save.pseudo')){
+                    document.getElementById('screen').style["display"] = "block";
+                }
+                else document.getElementById('pseudo').style["display"] = "block";
                 game.onload();
             });
         </script>
-
     </body>
 </html>

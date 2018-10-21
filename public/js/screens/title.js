@@ -18,6 +18,7 @@ game.TitleScreen = me.ScreenObject.extend({
         this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
             if (action === "enter") {
                 me.state.change(me.state.PLAY);
+                socket.emit("start");
             }
         });
 

@@ -7,12 +7,15 @@ game.GameOverScreen = me.ScreenObject.extend({
     onResetEvent: function() {
         //save section
         this.savedData = {
+            pseudo:localStorage.getItem('me.save.pseudo'),
+            pwd:localStorage.getItem('me.save.pwd'),
             score: game.data.score,
             steps: game.data.steps
         };
         me.save.add(this.savedData);
 
         if (!me.save.topSteps) me.save.add({topSteps: game.data.steps});
+        socket.emit('step', me.save.pseudo, me.save.pwd, game.data.steps);
         if (game.data.steps > me.save.topSteps) {
             me.save.topSteps = game.data.steps;
             game.data.newHiScore = true;
