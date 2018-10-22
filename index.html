@@ -31,28 +31,30 @@
         </div>
         <!-- Canvas placeholder -->
         <div id="screen" style="display:none"></div>
+		
+		<div id="iecaca" style="display:none"></div>
 
         <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript">
-            var socket = io(); 
-            socket.on('start', function(auth, err){
-                if (auth){
-                    document.getElementById('pseudo').style["display"] = "none";
-                    document.getElementById('screen').style["display"] = "block";
-                    localStorage.setItem('me.save.pseudo', document.getElementById('pseudotxt').value);
-                    localStorage.setItem('me.save.pwd', document.getElementById('pseudopwd').value);
-                }
-                else alert(err);
-            });
+        <script type="text/javascript">	
+			var socket = io(); 
+			socket.on('start', function(auth, err){
+				if (auth){
+					document.getElementById('pseudo').style["display"] = "none";
+					document.getElementById('screen').style["display"] = "block";
+					localStorage.setItem('me.save.pseudo', document.getElementById('pseudotxt').value);
+					localStorage.setItem('me.save.pwd', document.getElementById('pseudopwd').value);
+				}
+				else alert(err);
+			});
 
-            socket.on('leaderboard', function(rows){
-                me.save.rows=rows;
-            });
+			socket.on('leaderboard', function(rows){
+				me.save.rows=rows;
+			});
 
-            function register() {
-                socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
+			function register() {
+				socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
 				game.onload();
-            }
+			}
         </script>
         <!-- melonJS Library -->
         <script type="text/javascript" src="/js/melonJS-min.js" ></script>
@@ -65,14 +67,30 @@
         <script type="text/javascript" src="/js/screens/gameover.js" ></script>
         <script type="text/javascript" src="/js/screens/play.js" ></script>
         <script type="text/javascript" src="/js/screens/title.js" ></script>
+		<script type="text/javascript">
+			function isIE() {
+				  ua = navigator.userAgent;
+				  /* MSIE used to detect old browsers and Trident used to newer ones*/
+				  var is_ie = ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
+				  
+				  return is_ie; 
+				}
+		</script>		
         <!-- onload trigger -->
         <script type="text/javascript">
             window.onReady(function onReady() {
-                if (localStorage.getItem('me.save.pseudo')){
-                    document.getElementById('screen').style["display"] = "block";
-					game.onload();
-                }
-                else document.getElementById('pseudo').style["display"] = "block";       
+				if(isIE()) {
+					if (isIE()){
+					alert('Please use Google Chrome to play.');
+					document.getElementById('iecaca').style["display"] = "block";
+				}
+				}else {
+					if (localStorage.getItem('me.save.pseudo')){
+						document.getElementById('screen').style["display"] = "block";
+						game.onload();
+					}
+					else document.getElementById('pseudo').style["display"] = "block";       
+				}
             });
         </script>
     </body>
