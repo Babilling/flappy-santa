@@ -45,6 +45,10 @@
                 else alert(err);
             });
 
+            socket.on('leaderboard', function(rows){
+                me.save.rows=rows;
+            });
+
             function register() {
                 socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
             }

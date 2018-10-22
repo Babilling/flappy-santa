@@ -54,7 +54,11 @@ socket.on('start', function(){
         function(err) {
           if (err) return console.log(err.message);
       });
-      // TODO Send leaderboard
+      db.all(`SELECT pseudo, step from User order by step desc limit 5`, [],
+        function(err, rows) {
+          if (err) return console.log(err.message);
+          socket.emit("leaderboard", rows);
+      });
     }
     else console.log(pseudo + " is trying to hack the app");
   });

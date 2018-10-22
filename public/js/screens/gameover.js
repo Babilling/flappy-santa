@@ -45,19 +45,6 @@ game.GameOverScreen = me.ScreenObject.extend({
         me.game.world.addChild(gameOverBG, 10);
 
         me.game.world.addChild(new BackgroundLayer('bg', 1));
-
-
-
-        // add the dialog witht he game information
-        if (game.data.newHiScore) {
-            var newRect = new me.Sprite(
-                gameOverBG.width/2,
-                gameOverBG.height/2,
-                {image: 'new'}
-            );
-            me.game.world.addChild(newRect, 12);
-        }
-
         this.dialog = new (me.Renderable.extend({
             // constructor
             init: function() {
@@ -65,30 +52,21 @@ game.GameOverScreen = me.ScreenObject.extend({
                     [0, 0, me.game.viewport.width/2, me.game.viewport.height/2]
                 );
                 this.font = new me.Font('gamefont', 40, 'black', 'left');
-                this.steps = 'Score : ' + game.data.steps.toString();
-                this.topSteps= 'Personal best : ' + me.save.topSteps.toString();
             },
 
             draw: function (renderer) {
-                var stepsText = this.font.measureText(renderer, this.steps);
-                var topStepsText = this.font.measureText(renderer, this.topSteps);
-                var scoreText = this.font.measureText(renderer, this.score);
-
-                //steps
-                this.font.draw(
-                    renderer,
-                    this.steps,
-                    me.game.viewport.width/2 - stepsText.width/2 - 60,
-                    me.game.viewport.height/2
-                );
-
-                //top score
-                this.font.draw(
-                    renderer,
-                    this.topSteps,
-                    me.game.viewport.width/2 - stepsText.width/2 - 60,
-                    me.game.viewport.height/2 + 50
-                );
+                var margin = 0;
+                for (var i = 0; i < me.save.rows.length; i++){
+                    var text = me.save.rows[i].pseudo + " : " + me.save.rows[i].step;
+                    var textFont =  this.font.measureText(renderer, text);
+                    this.font.draw(
+                        renderer,
+                        text,
+                        me.game.viewport.width/2 - textFont.width/2 - 60,
+                        me.game.viewport.height/2 + margin
+                    );
+                    margin = margin + 50;
+                }
             }
         }));
         me.game.world.addChild(this.dialog, 12);
