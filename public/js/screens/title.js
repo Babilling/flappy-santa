@@ -19,6 +19,8 @@ game.TitleScreen = me.ScreenObject.extend({
             if (action === "enter") {
                 me.state.change(me.state.PLAY);
                 socket.emit("start");
+                if (Math.random() > 0.5)
+                    me.audio.play("cabiche", false, null, 1);
             }
         });
 

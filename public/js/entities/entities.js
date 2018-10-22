@@ -95,14 +95,30 @@ game.BirdEntity = me.Entity.extend({
     onCollision: function(response) {
         var obj = response.b;
         if (obj.type === 'pipe') {
-            me.device.vibrate(500);
+            if (Math.random () > 0.9){
+                // Vibromasseur mode
+                me.device.vibrate(50000);
+            }
+            else
+                me.device.vibrate(500);
             this.collided = true;
+            if (Math.random() > 0.5)
+                me.audio.play("tesdanslaxe", false, null, 1);
+            else
+                me.audio.play("fatchdefitch", false, null, 1);
         }
         // remove the hit box
         if (obj.type === 'hit') {
             me.game.world.removeChildNow(obj);
             game.data.steps++;
             me.audio.play('hit');
+            var random = Math.random();
+            if (random > 0.8)
+                me.audio.play('cest du bon', false, null, 1);
+            else if (random > 0.6)
+                me.audio.play('onestbienla', false, null, 1);
+            else if (random > 0.5)
+                me.audio.play('balle de boule', false, null, 1); 
         }
     },
 
