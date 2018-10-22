@@ -25,25 +25,19 @@ io.on('connection', function(socket){
   socket.date = Date.now();
 
 socket.on('register', function(pseudo, pwd){
-    db.get(`SELECT pwd, count(*) as count FROM User where pseudo=?;`, [pseudo],
+    db.get(`SELECT count(*) as count FROM User where pseudo=?;`, [pseudo],
         function(err, rows) {
           if (err) {
             socket.emit('start', false, "Erreur interne : " + err);
             return console.log(err.message);
           }
-          if (rows.count == 1){
-            if (hash.sha256().update(pwd).digest('hex') == rows.pwd)
-              socket.emit('start', true, "");
-            else
-              socket.emit('start', false, "Le pseudo est déjà pris, le mot de passe ne correspond pas.");
-          }
-          else {
+          if (rows.count == 0){
             db.run(`INSERT INTO User(pseudo, pwd) VALUES(?,?);`, [pseudo, hash.sha256().update(pwd).digest('hex')],
               function(err) {
                 if (err) return console.log(err.message);
             });
-            socket.emit('start', true, "");
           }
+          socket.emit('start', true, "");
       });
   });
 
@@ -60,6 +54,7 @@ socket.on('start', function(){
         function(err) {
           if (err) return console.log(err.message);
       });
+      // TODO Send leaderboard
     }
     else console.log(pseudo + " is trying to hack the app");
   });
