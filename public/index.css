@@ -65,7 +65,7 @@ body {
 }
 
 .pseudo {
-  font-size: 5em;
+  font-size: 2em;
   font-family: 'gamefont';
   display: block;
   margin:auto;
@@ -80,9 +80,12 @@ body {
 }
 
 #pseudo {
-  background: url("/data/img/bg.png") no-repeat center center fixed; 
+  background: url('data/img/bg.png'); 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  position: absolute;
+  height:100%;
+  width:100%;
+  overflow:hidden;
 }

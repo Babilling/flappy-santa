@@ -23,11 +23,11 @@
 
     <body>
         <div id="pseudo" style="display:none">
-            <div class="title">Flappy Bat</div>
-            <input id="pseudotxt" type="text" required placeholder="Pseudo" class="pseudo"/>
-            <input id="pseudopwd" type="password" required placeholder="Mot de passe" value="babilling" class="pseudo" style="display:none"/>
-            <input type="button" value="Jouer !" class="pseudo" onclick="register()" >
-            <div class="info">Entre un pseudo pour jouer :)</div>
+            <img src="data/img/logo.png" style="display:block;margin-left:auto;margin-right:auto;width:40%;margin-top:75px;margin-bottom:200px;"/>
+            <input id="pseudotxt" type="text" required placeholder="Pseudo" class="pseudo"/>      
+            <input type="button" value="Jouer !" class="pseudo" onclick="register()" style="margin-bottom:50px;">
+			<input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudo" style="visibility: hidden;"/>
+            <div class="info" style="color:black;">Choisis un pseudo pour jouer :)</div>
         </div>
         <!-- Canvas placeholder -->
         <div id="screen" style="display:none"></div>
@@ -51,6 +51,7 @@
 
             function register() {
                 socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
+				game.onload();
             }
         </script>
         <!-- melonJS Library -->
@@ -69,9 +70,9 @@
             window.onReady(function onReady() {
                 if (localStorage.getItem('me.save.pseudo')){
                     document.getElementById('screen').style["display"] = "block";
+					game.onload();
                 }
-                else document.getElementById('pseudo').style["display"] = "block";
-                game.onload();
+                else document.getElementById('pseudo').style["display"] = "block";       
             });
         </script>
     </body>

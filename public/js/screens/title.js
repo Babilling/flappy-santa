@@ -9,11 +9,11 @@ game.TitleScreen = me.ScreenObject.extend({
     onResetEvent: function() {
         me.audio.stop("theme");
         game.data.newHiScore = false;
+		me.game.world.addChild(new BackgroundLayer('bg', 1));
 
-        me.game.world.addChild(new BackgroundLayer('bg', 1));
-        me.input.bindKey(me.input.KEY.ENTER, "enter", true);
-        me.input.bindKey(me.input.KEY.SPACE, "enter", true);
-        me.input.bindPointer(me.input.pointer.LEFT, me.input.KEY.ENTER);
+			me.input.bindKey(me.input.KEY.ENTER, "enter", true);
+			me.input.bindKey(me.input.KEY.SPACE, "enter", true);
+			me.input.bindPointer(me.input.pointer.LEFT, me.input.KEY.ENTER);
 
         this.handler = me.event.subscribe(me.event.KEYDOWN, function (action, keyCode, edge) {
             if (action === "enter") {
@@ -23,6 +23,7 @@ game.TitleScreen = me.ScreenObject.extend({
                     me.audio.play("cabiche", false, null, 1);
             }
         });
+		
 
         //logo
         this.logo = new me.Sprite(
@@ -44,7 +45,7 @@ game.TitleScreen = me.ScreenObject.extend({
                 // size does not matter, it's just to avoid having a zero size
                 // renderable
                 this._super(me.Renderable, 'init', [0, 0, 100, 100]);
-                this.text = me.device.touch ? 'Tap to start' : 'PRESS SPACE OR CLICK LEFT MOUSE BUTTON TO START \n\t\t\t\t\t\t\t\t\t\t\tPRESS "M" TO MUTE SOUND';
+				this.text = me.device.touch ? 'Tap to start' : 'APPUYEZ SUR ESPACE OU CLIQUE GAUCHE POUR DEMARRER \n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t"M" POUR MUTE';
                 this.font = new me.Font('gamefont', 20, '#000');
             },
             draw: function (renderer) {
