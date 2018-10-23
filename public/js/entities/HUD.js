@@ -53,14 +53,6 @@ var BackgroundLayer = me.ImageLayer.extend({
     },
 
     update: function() {
-        if (me.input.isKeyPressed('mute')) {
-            game.data.muted = !game.data.muted;
-            if (game.data.muted){
-                me.audio.disable();
-            }else{
-                me.audio.enable();
-            }
-        }
         return true;
     }
 });
