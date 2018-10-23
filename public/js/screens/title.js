@@ -52,7 +52,9 @@ game.TitleScreen = me.ScreenObject.extend({
                 var measure = this.font.measureText(renderer, this.text);
                 var xpos = me.game.viewport.width/2 - measure.width/2;
                 var ypos = me.game.viewport.height/2 + 50;
-                this.font.draw(renderer, this.text, xpos, ypos);
+                this.font.draw(renderer, this.text, xpos, ypos-50);
+				
+				this.font.draw(renderer, "CREDITS \n STEVEN \n MAXIME\n \nGUEST STAR\n LAURENT \"LOLO\" VASSEUR", xpos+200, ypos+25);
             }
         })), 12);
     },
