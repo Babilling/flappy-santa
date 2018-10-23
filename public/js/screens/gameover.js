@@ -36,6 +36,12 @@ game.GameOverScreen = me.ScreenObject.extend({
             me.game.viewport.height/2 - 100,
             {image: 'gameover'}
         ), 12);
+		
+		me.game.world.addChild(new me.Sprite(
+            me.game.viewport.width/2,
+            me.game.viewport.height/2 + 100,
+            {image: 'tablo'}
+        ), 12);
 
         var gameOverBG = new me.Sprite(
             me.game.viewport.width/2,
@@ -51,25 +57,32 @@ game.GameOverScreen = me.ScreenObject.extend({
                 this._super(me.Renderable, 'init',
                     [0, 0, me.game.viewport.width/2, me.game.viewport.height/2]
                 );
-                this.font = new me.Font('gamefont', 40, 'black', 'left');
+                this.font = new me.Font('consolas', 25, 'white', 'left');
             },
 
             draw: function (renderer) {
                 var margin = 0;
                 for (var i = 0; i < me.save.rows.length; i++){
-                    var text = me.save.rows[i].pseudo + " : " + me.save.rows[i].step;
+					var stepsTxt = "" + me.save.rows[i].step;
+					while(me.save.rows[i].pseudo.length < 8) {
+						me.save.rows[i].pseudo = me.save.rows[i].pseudo + " ";
+					}
+					while(stepsTxt.length < 3) {
+						stepsTxt = "0" + stepsTxt;
+					}
+                    var text = me.save.rows[i].pseudo + "      " + stepsTxt;
                     var textFont =  this.font.measureText(renderer, text);
                     this.font.draw(
                         renderer,
-                        text,
-                        me.game.viewport.width/2 - textFont.width/2 - 60,
-                        me.game.viewport.height/2 + margin
+                        (i+1) + "   " + text,
+                        me.game.viewport.width/2 - textFont.width/2 - 50,
+                        me.game.viewport.height/2 + margin + 55
                     );
-                    margin = margin + 50;
+                    margin = margin + 27;
                 }
             }
         }));
-        me.game.world.addChild(this.dialog, 12);
+        me.game.world.addChild(this.dialog, 13);
     },
 
     onDestroyEvent: function() {

@@ -15,6 +15,7 @@ var game = {
         {name: "logo", type:"image", src: "data/img/logo.png"},
 
         {name: "gameover", type:"image", src: "data/img/gameover.png"},
+		{name: "tablo", type:"image", src: "data/img/tablo.png"},
         {name: "gameoverbg", type:"image", src: "data/img/gameoverbg.png"},
         {name: "hit", type:"image", src: "data/img/hit.png"},
         {name: "getready", type:"image", src: "data/img/getready.png"},
