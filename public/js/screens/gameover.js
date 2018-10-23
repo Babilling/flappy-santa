@@ -33,7 +33,7 @@ game.GameOverScreen = me.ScreenObject.extend({
 
         me.game.world.addChild(new me.Sprite(
             me.game.viewport.width/2,
-            me.game.viewport.height/2 - 100,
+            me.game.viewport.height/2 - 150,
             {image: 'gameover'}
         ), 12);
 		
@@ -62,24 +62,6 @@ game.GameOverScreen = me.ScreenObject.extend({
 
             draw: function (renderer) {
                 var margin = 0;
-                for (var i = 0; i < me.save.rows.length; i++){
-					var stepsTxt = "" + me.save.rows[i].step;
-					while(me.save.rows[i].pseudo.length < 8) {
-						me.save.rows[i].pseudo = me.save.rows[i].pseudo + " ";
-					}
-					while(stepsTxt.length < 3) {
-						stepsTxt = "0" + stepsTxt;
-					}
-                    var text = me.save.rows[i].pseudo + "      " + stepsTxt;
-                    var textFont =  this.font.measureText(renderer, text);
-                    this.font.draw(
-                        renderer,
-                        (i+1) + "   " + text,
-                        me.game.viewport.width/2 - textFont.width/2 - 50,
-                        me.game.viewport.height/2 + margin + 55
-                    );
-                    margin = margin + 27;
-                }
 				var stepsTxt = "" + game.data.steps;
 				var pseudoTxt = me.save.pseudo;
 				while(pseudoTxt.length < 8) {
@@ -93,8 +75,26 @@ game.GameOverScreen = me.ScreenObject.extend({
                 this.font.draw(
                     renderer,"    " + text,
                      me.game.viewport.width/2 - textFont.width/2 - 50,
-                     me.game.viewport.height/2 + margin + 65
+                     me.game.viewport.height/2 + margin - 30
                 );
+                for (var i = 0; i < me.save.rows.length; i++){
+					var stepsTxt = "" + me.save.rows[i].step;
+					while(me.save.rows[i].pseudo.length < 8) {
+						me.save.rows[i].pseudo = me.save.rows[i].pseudo + " ";
+					}
+					while(stepsTxt.length < 3) {
+						stepsTxt = "0" + stepsTxt;
+					}
+                    var text = me.save.rows[i].pseudo + "      " + stepsTxt;
+                    textFont =  this.font.measureText(renderer, text);
+                    this.font.draw(
+                        renderer,
+                        (i+1) + "   " + text,
+                        me.game.viewport.width/2 - textFont.width/2 - 50,
+                        me.game.viewport.height/2 + margin + 55
+                    );
+                    margin = margin + 27;
+                }
             }
         }));
         me.game.world.addChild(this.dialog, 13);
