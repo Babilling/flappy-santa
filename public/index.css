@@ -69,6 +69,28 @@ body {
   font-family: 'gamefont';
   display: block;
   margin:auto;
+  margin-bottom:50px;
+  margin-top:20px;
+}
+.pseudoPwd {
+
+}
+.pseudoLogo {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
+  width:40%;
+  margin-top:75px;
+  margin-bottom:200px;
+}
+@media screen and (max-width: 800px) , screen and (max-height: 660px){
+  .pseudo, .pseudoLogo {
+	margin-bottom:0px;
+	font-size: 1em !important; 
+  }
+  .info {
+	font-size: 2em !important; 
+  }
 }
 
 .info {

@@ -23,13 +23,13 @@
 
     <body>
         <div id="pseudo" style="display:none">
-            <img src="data/img/logo.png" style="display:block;margin-left:auto;margin-right:auto;width:40%;margin-top:75px;margin-bottom:200px;"/>
+            <img src="data/img/logo.png" class="pseudoLogo"/>
 			<form action="javascript:register()">
 				<input oninput="this.value = this.value.toUpperCase()" id="pseudotxt" type="text" required placeholder="PSEUDO" class="pseudo" pattern=".{1,8}" maxlength="8"/>
-				<input type="submit" value="Jouer !" class="pseudo" style="margin-bottom:50px;margin-top:20px;">
+				<input type="submit" value="JOUER !" class="pseudo" id="button">
 			</form>
-			<input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudo" style="visibility: hidden;"/>
-            <div class="info" style="color:black;">Choisis un pseudo pour jouer (8 caracteres max)</div>
+			<input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudoPwd" style="visibility: hidden;"/>
+            <div class="info" style="color:black;">CHOISIS UN PSEUDO POUR JOUER (8 CARACTERES MAX)</div>
         </div>
         <!-- Canvas placeholder -->
         <div id="screen" style="display:none"></div>
