@@ -22,22 +22,8 @@
     </head>
 
     <body>
-        <div id="pseudo" style="display:none">
-            <img src="data/img/logo.png" class="pseudoLogo"/>
-			<form action="javascript:register()">
-				<input oninput="this.value = this.value.toUpperCase()" id="pseudotxt" type="text" required placeholder="PSEUDO" class="pseudo" pattern=".{1,8}" maxlength="8"/>
-				<input type="submit" value="JOUER !" class="pseudo" id="button">
-			</form>
-			<input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudoPwd" style="visibility: hidden;"/>
-            <div class="info" style="color:black;">CHOISIS UN PSEUDO POUR JOUER (8 CARACTERES MAX)</div>
-        </div>
-        <!-- Canvas placeholder -->
-        <div id="screen" style="display:none"></div>
-		
-		<div id="iecaca" style="display:none"></div>
-
-        <script src="/socket.io/socket.io.js"></script>
-        <script type="text/javascript">	
+		<script src="/socket.io/socket.io.js"></script> 
+		<script type="text/javascript">	
 			var socket = io(); 
 			socket.on('start', function(auth, err){
 				if (auth){
@@ -58,6 +44,19 @@
 				game.onload();
 			}
         </script>
+        <div id="pseudo" style="display:none">
+            <img src="data/img/logo.png" class="pseudoLogo"/>
+			<form action="javascript:register()">
+				<input oninput="this.value = this.value.toUpperCase()" id="pseudotxt" type="text" required placeholder="PSEUDO" class="pseudo" pattern=".{1,8}" maxlength="8"/>
+				<input type="submit" value="JOUER !" class="pseudo" id="button">
+			</form>
+			<input id="pseudopwd" type="password" required placeholder="Mot de passe" class="pseudoPwd" style="visibility: hidden;"/>
+            <div class="info" style="color:black;">CHOISIS UN PSEUDO POUR JOUER (8 CARACTERES MAX)</div>
+        </div>
+        <!-- Canvas placeholder -->
+        <div id="screen" style="display:none"></div>
+		<div id="iecaca" style="display:none"></div>
+        
         <!-- melonJS Library -->
         <script type="text/javascript" src="/js/melonJS-min.js" ></script>
         <!-- The game -->
