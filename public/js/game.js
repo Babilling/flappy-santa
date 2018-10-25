@@ -27,6 +27,7 @@ var game = {
         {name: "hit", type: "audio", src: "data/sfx/"},
         {name: "lose", type: "audio", src: "data/sfx/"},
         {name: "wing", type: "audio", src: "data/sfx/"},
+		{name: "balledeboulepremium", type: "audio", src: "data/sfx/"},
         {name: "balle de boule", type: "audio", src: "data/sfx/"},
         {name: "cabiche", type: "audio", src: "data/sfx/"},
         {name: "cest du bon", type: "audio", src: "data/sfx/"},

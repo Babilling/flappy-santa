@@ -113,7 +113,9 @@ game.BirdEntity = me.Entity.extend({
             game.data.steps++;
             me.audio.play('hit');
             var random = Math.random();
-            if (random > 0.9)
+			if (random > 0.99)
+				me.audio.play('balledeboulepremium', false, null, 1);
+            else if (random > 0.9)
                 me.audio.play('cest du bon', false, null, 1);
             else if (random > 0.8)
                 me.audio.play('onestbienla', false, null, 1);
