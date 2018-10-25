@@ -24,7 +24,7 @@
     <body>
 		<script src="/socket.io/socket.io.js"></script> 
 		<script type="text/javascript">	
-			var socket = io(); 
+			var socket = io();
 			socket.on('start', function(auth, err){
 				if (auth){
 					document.getElementById('pseudo').style["display"] = "none";
@@ -42,6 +42,7 @@
 			function register() {
 				socket.emit('register', document.getElementById('pseudotxt').value, document.getElementById('pseudopwd').value);
 				game.onload();
+				me.save.rows=0;
 			}
         </script>
         <div id="pseudo" style="display:none">
@@ -82,13 +83,14 @@
             window.onReady(function onReady() {
 				if(isIE()) {
 					if (isIE()){
-					alert('Merci d\'utiliser Chrome ou FIrefox pour jouer.');
+					alert('Merci d\'utiliser Chrome ou Firefox pour jouer.');
 					document.getElementById('iecaca').style["display"] = "block";
 				}
 				}else {
 					if (localStorage.getItem('me.save.pseudo')){
 						document.getElementById('screen').style["display"] = "block";
 						game.onload();
+						me.save.rows=0;
 					}
 					else document.getElementById('pseudo').style["display"] = "block";       
 				}
