@@ -52,7 +52,8 @@ game.TitleScreen = me.ScreenObject.extend({
                 var measure = this.font.measureText(renderer, this.text);
                 var xpos = me.game.viewport.width/2 - measure.width/2;
                 var ypos = me.game.viewport.height/2 + 50;
-                this.font.draw(renderer, this.text, xpos, ypos);
+                this.font.draw(renderer, this.text, xpos, ypos-50);
+				this.font.draw(renderer, "CREDITS          VOICE EFFECTS \n STEVEN           LOLO\n MAXIME", xpos+100, ypos+25);
             }
         })), 12);
     },
