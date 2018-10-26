@@ -23,6 +23,7 @@ http.listen(8080, function(){
 io.on('connection', function(socket){
   socket.started = false;
   socket.date = Date.now();
+  
 
 socket.on('register', function(pseudo, pwd){
     db.get(`SELECT count(*) as count FROM User where pseudo=?;`, [pseudo],
@@ -44,6 +45,11 @@ socket.on('register', function(pseudo, pwd){
 socket.on('start', function(){
     socket.started = true;
     socket.date = Date.now();
+	db.all(`SELECT pseudo, step from User order by step desc limit 5`, [],
+    function(err, rows) {
+      if (err) return console.log(err.message);
+      socket.emit("leaderboard", rows);
+  });
   });
 
   socket.on('step', function(pseudo, pwd, step){
