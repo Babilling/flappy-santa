@@ -45,7 +45,7 @@ socket.on('register', function(pseudo, pwd){
 socket.on('start', function(){
     socket.started = true;
     socket.date = Date.now();
-	db.all(`SELECT pseudo, step from User order by step desc limit 5`, [],
+	db.all(`SELECT pseudo, step from User order by step desc limit 12`, [],
     function(err, rows) {
       if (err) return console.log(err.message);
       socket.emit("leaderboard", rows);
@@ -60,7 +60,7 @@ socket.on('start', function(){
         function(err) {
           if (err) return console.log(err.message);
       });
-      db.all(`SELECT pseudo, step from User order by step desc limit 5`, [],
+      db.all(`SELECT pseudo, step from User order by step desc limit 12`, [],
         function(err, rows) {
           if (err) return console.log(err.message);
           socket.emit("leaderboard", rows);

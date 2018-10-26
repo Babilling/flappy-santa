@@ -32,15 +32,21 @@ game.GameOverScreen = me.ScreenObject.extend({
             });
 
         me.game.world.addChild(new me.Sprite(
-            me.game.viewport.width/2,
-            me.game.viewport.height/2 - 150,
+            me.game.viewport.width/6,
+            me.game.viewport.height/3,
+            {image: 'gameover'}
+        ), 12);
+		
+		me.game.world.addChild(new me.Sprite(
+            (me.game.viewport.width) - (me.game.viewport.width/6),
+            (me.game.viewport.height) - (me.game.viewport.height/3),
             {image: 'gameover'}
         ), 12);
 		
 		me.game.world.addChild(new me.Sprite(
             me.game.viewport.width/2,
-            me.game.viewport.height/2 + 100,
-            {image: 'tablo'}
+            me.game.viewport.height/2,
+            {image: 'tablo12'}
         ), 12);
 
         var gameOverBG = new me.Sprite(
@@ -75,7 +81,7 @@ game.GameOverScreen = me.ScreenObject.extend({
                 this.font.draw(
                     renderer,"    " + text,
                      me.game.viewport.width/2 - textFont.width/2 - 50,
-                     me.game.viewport.height/2 + margin - 30
+                     me.game.viewport.height/2 + margin - 230
                 );
                 for (var i = 0; i < me.save.rows.length; i++){
 					var stepsTxt = "" + me.save.rows[i].step;
@@ -85,13 +91,16 @@ game.GameOverScreen = me.ScreenObject.extend({
 					while(stepsTxt.length < 3) {
 						stepsTxt = "0" + stepsTxt;
 					}
-                    var text = me.save.rows[i].pseudo + "      " + stepsTxt;
+                    var text = me.save.rows[i].pseudo + "    " + stepsTxt;
                     textFont =  this.font.measureText(renderer, text);
+					var pos = (i+1);
+					if(pos < 10)
+						pos = " " + pos;
                     this.font.draw(
                         renderer,
-                        (i+1) + "   " + text,
+                        pos + "   " + text,
                         me.game.viewport.width/2 - textFont.width/2 - 50,
-                        me.game.viewport.height/2 + margin + 55
+                        me.game.viewport.height/2 + margin - 140
                     );
                     margin = margin + 27;
                 }
