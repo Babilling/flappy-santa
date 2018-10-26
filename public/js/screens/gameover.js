@@ -76,11 +76,11 @@ game.GameOverScreen = me.ScreenObject.extend({
 				while(stepsTxt.length < 3) {
 						stepsTxt = "0" + stepsTxt;
 				}
-				var text = pseudoTxt + "      " + stepsTxt;
+				var text = "    " + pseudoTxt + "    " + stepsTxt;
                 var textFont =  this.font.measureText(renderer, text);
                 this.font.draw(
                     renderer,"    " + text,
-                     me.game.viewport.width/2 - textFont.width/2 - 50,
+                     me.game.viewport.width/2 - textFont.width/2 - 65,
                      me.game.viewport.height/2 + margin - 230
                 );
                 for (var i = 0; i < me.save.rows.length; i++){
