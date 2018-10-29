@@ -197,6 +197,9 @@ game.PipeGenerator = me.Renderable.extend({
 			if (game.data.steps % 10 == 0 && this.pipeHoleSize > 1290) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
 			}
+			if (game.data.steps === 350) {
+				this.pipeHoleSize = 1160;
+			}
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);

@@ -57,7 +57,7 @@ socket.on('start', function(){
     if (socket.started && (Date.now() - socket.date) > (step / 2)){
 	  var d = Date(Date.now()); 
 	  a = d.toString()
-      console.log(a + " Game over for " + pseudo + " : " + step + " step(s)");
+      console.log(a + " Game over for " + pseudo + " : " + step + " step(s) (Game time = " + millisToMinutesAndSeconds((Date.now() - socket.date)) + ")");
       socket.started = false;
       db.run(`UPDATE User SET step = ? where pseudo=? AND pwd=? AND step < ?`, [step, pseudo, hash.sha256().update(pwd).digest('hex'), step],
         function(err) {
@@ -72,3 +72,9 @@ socket.on('start', function(){
     else console.log(pseudo + " is trying to hack the app");
   });
 });
+
+function millisToMinutesAndSeconds(millis) {
+  var minutes = Math.floor(millis / 60000);
+  var seconds = ((millis % 60000) / 1000).toFixed(0);
+  return (seconds == 60 ? (minutes+1) + ":00" : minutes + ":" + (seconds < 10 ? "0" : "") + seconds);
+}
