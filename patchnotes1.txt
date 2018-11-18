@@ -1,0 +1,11 @@
+Patch Notes V1.1 Flappy Santa
+Apparence :
+- Flappy Bat devient Flappy Santa à l'occasion des fêtes de fin d'année
+- Musique et ambiance revisitées
+Équilibrage :
+- Réduction de la difficulté entre 0 et 50, les joueurs devraient plus facilement atteindre la zone des 40-50 points
+- La difficulté augmente progressivement de 50 jusqu'à l'infini
+- Hitbox du père Noël et des obstacles revisitées pour mieux correspondre visuellement aux images
+- Inclinaison du père Noël réduite. L'angle lorsque le personnage monte/tombe est désormais plus petit
+Bug fix :
+- Résolution d'un bug qui empêchait le personnage d'être animé pendant le jeu (mais pas lors du démarrage ou du game over)
