@@ -10,19 +10,16 @@ var game = {
     resources: [
             // images
         {name: "bg", type:"image", src: "data/img/bg.png"},
-        {name: "clumsy", type:"image", src: "data/img/clumsy.png"},
+        {name: "santa", type:"image", src: "data/img/santa.png"},
+        {name: "santa", type:"json", src: "data/img/santa.json"},
         {name: "pipe", type:"image", src: "data/img/pipe.png"},
         {name: "logo", type:"image", src: "data/img/logo.png"},
 
         {name: "gameover", type:"image", src: "data/img/gameover.png"},
-		{name: "tablo", type:"image", src: "data/img/tablo.png"},
 		{name: "tablo12", type:"image", src: "data/img/tablo12.png"},
         {name: "gameoverbg", type:"image", src: "data/img/gameoverbg.png"},
         {name: "hit", type:"image", src: "data/img/hit.png"},
         {name: "getready", type:"image", src: "data/img/getready.png"},
-        {name: "new", type:"image", src: "data/img/new.png"},
-        {name: "share", type:"image", src: "data/img/share.png"},
-        {name: "tweet", type:"image", src: "data/img/tweet.png"},
         // sounds
         {name: "theme", type: "audio", src: "data/bgm/"},
         {name: "hit", type: "audio", src: "data/sfx/"},
@@ -39,7 +36,7 @@ var game = {
     ],
 
     "onload": function() {
-        if (!me.video.init(900, 504, {
+        if (!me.video.init(900, 600, {
             wrapper: "screen",
             scale : "auto",
             scaleMethod: "fit"
@@ -59,9 +56,15 @@ var game = {
         me.input.bindKey(me.input.KEY.SPACE, "fly", true);
         me.input.bindPointer(me.input.KEY.SPACE);
 
-        me.pool.register("clumsy", game.BirdEntity);
+        me.pool.register("santa", game.SantaEntity);
         me.pool.register("pipe", game.PipeEntity, true);
         me.pool.register("hit", game.HitEntity, true);
+
+        //santa
+        game.santaTexture = new me.video.renderer.Texture(
+            me.loader.getJSON("santa"),
+            me.loader.getImage("santa")
+        );
 
         me.state.change(me.state.MENU);
     }

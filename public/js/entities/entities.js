@@ -1,25 +1,29 @@
-game.BirdEntity = me.Entity.extend({
+var veldemerde = -5;
+game.SantaEntity = me.Entity.extend({
     init: function(x, y) {
-        var settings = {};
-        settings.image = 'clumsy';
-        settings.width = 85;
-        settings.height = 60;
 
-        this._super(me.Entity, 'init', [x, y, settings]);
+        // call the super constructor
+        this._super(me.Entity, "init", [200, 140, {width : 99, height : 60}]);
+
+        // create an animation using the cap guy sprites, and add as renderable
+        this.renderable = game.santaTexture.createAnimationFromName([
+            "santa", "santa2"
+        ]);
+        this.renderable.addAnimation("flying", [0, 1]);
+        this.renderable.setCurrentAnimation("flying");
+
+		veldemerde = -5;
         this.alwaysUpdate = true;
         this.body.gravity = 0.2;
         this.maxAngleRotation = Number.prototype.degToRad(-30);
         this.maxAngleRotationDown = Number.prototype.degToRad(35);
-        this.renderable.addAnimation("flying", [0, 1, 2]);
-        this.renderable.addAnimation("idle", [0]);
-        this.renderable.setCurrentAnimation("flying");
         //this.renderable.anchorPoint = new me.Vector2d(0.1, 0.5);
         this.body.removeShapeAt(0);
-        this.body.addShape(new me.Ellipse(5, 5, 71, 51));
+        this.body.addShape(new me.Ellipse(5, 5, 99, 59));
 
         // a tween object for the flying physic effect
-        this.flyTween = new me.Tween(this.pos);
-        this.flyTween.easing(me.Tween.Easing.Exponential.InOut);
+       // this.flyTween = new me.Tween(this.pos);
+        //this.flyTween.easing(me.Tween.Easing.Exponential.InOut);
 
         this.currentAngle = 0;
         this.angleTween = new me.Tween(this);
@@ -44,44 +48,22 @@ game.BirdEntity = me.Entity.extend({
             return this._super(me.Entity, 'update', [dt]);
         }
         this.renderable.currentTransform.identity();
-        if (me.input.isKeyPressed('fly')) {
+        if (me.input.isKeyPressed('fly',0.2)) {
             me.audio.play('wing');
-            //this.gravityForce = 0.2;
             var currentPos = this.pos.y;
-
-            //this.angleTween.stop();
-            //this.flyTween.stop();
-
-            //this.flyTween.to({y: currentPos - 72}, 50);
-            //this.flyTween.start();
-
             this.velY = -this.jumpForce
-
-            //this.angleTween.to({currentAngle: that.maxAngleRotation}, 50).onComplete(function(angle) {
-            //    that.renderable.currentTransform.rotate(that.maxAngleRotation);
-            //})
-            //this.angleTween.start();
-
         } else {
-            //this.gravityForce += 0.2;
-            //this.pos.y += me.timer.tick * this.gravityForce;
             this.pos.y += this.velY;
             this.velY += this.gravityForce;
-
-            //this.currentAngle += Number.prototype.degToRad(3);
-            //if (this.currentAngle >= this.maxAngleRotationDown) {
-            //    this.renderable.currentTransform.identity();
-            //    this.currentAngle = this.maxAngleRotationDown;
-            //}
         }
         // This is not the best solution, should be changed ...
-        this.currentAngle = this.velY * 0.08
+        this.currentAngle = this.velY * 0.02;
 
         this.renderable.currentTransform.rotate(this.currentAngle);
         me.Rect.prototype.updateBounds.apply(this);
 
         var hitSky = -80; // bird height + 20px
-		var hitGround = 584; // heightof the background img
+		var hitGround = 600; // heightof the background img
         if (this.pos.y <= hitSky || this.pos.y >= hitGround || this.collided) {
             game.data.start = false;
             me.audio.play("lose");
@@ -89,6 +71,7 @@ game.BirdEntity = me.Entity.extend({
             return false;
         }
         me.collision.check(this);
+        this._super(me.Entity, 'update', [dt]);
         return true;
     },
 
@@ -111,7 +94,11 @@ game.BirdEntity = me.Entity.extend({
         if (obj.type === 'hit') {
             me.game.world.removeChildNow(obj);
             game.data.steps++;
-            me.audio.play('hit');
+			if (game.data.steps % 200 < 10 && game.data.steps > 200)
+				veldemerde = veldemerde - 0.5;
+			else 
+				veldemerde = -5;
+            me.audio.play('hit',0.2);
             var random = Math.random();
 			if (random > 0.99)
 				me.audio.play('balledeboulepremium', false, null, 1);
@@ -130,7 +117,7 @@ game.BirdEntity = me.Entity.extend({
         this.endTween = new me.Tween(this.pos);
         this.endTween.easing(me.Tween.Easing.Exponential.InOut);
 
-        this.flyTween.stop();
+        //this.flyTween.stop();
         this.renderable.currentTransform.identity();
         this.renderable.currentTransform.rotate(Number.prototype.degToRad(90));
         var finalPos = me.game.viewport.height - this.renderable.width/2 - 96;
@@ -164,6 +151,7 @@ game.PipeEntity = me.Entity.extend({
 
     update: function(dt) {
         // mechanics
+		
         if (!game.data.start) {
             return this._super(me.Entity, 'update', [dt]);
         }
@@ -171,6 +159,8 @@ game.PipeEntity = me.Entity.extend({
         if (this.pos.x < -this.image.width) {
             me.game.world.removeChild(this);
         }
+		this.body.vel.set(veldemerde, 0);
+		
         me.Rect.prototype.updateBounds.apply(this);
         this._super(me.Entity, 'update', [dt]);
         return true;
@@ -194,11 +184,8 @@ game.PipeGenerator = me.Renderable.extend({
                     me.video.renderer.getHeight() - 20,
                     200
             );
-			if (game.data.steps % 10 == 0 && this.pipeHoleSize > 1290) {
+			if (game.data.steps > 40 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1290) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
-			}
-			if (game.data.steps === 350) {
-				this.pipeHoleSize = 1160;
 			}
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
@@ -229,7 +216,7 @@ game.HitEntity = me.Entity.extend({
         this.body.gravity = 0;
         this.updateTime = false;
         this.renderable.alpha = 0;
-        this.body.accel.set(-5, 0);
+        this.body.accel.set(veldemerde, 0);
         this.body.removeShapeAt(0);
         this.body.addShape(new me.Rect(0, 0, settings.width - 30, settings.height - 30));
         this.type = 'hit';

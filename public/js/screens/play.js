@@ -25,8 +25,7 @@ game.PlayScreen = me.ScreenObject.extend({
         this.HUD = new game.HUD.Container();
         me.game.world.addChild(this.HUD, 11);
 
-        this.bird = me.pool.pull("clumsy", 60, me.game.viewport.height/2 - 100);
-        me.game.world.addChild(this.bird, 10);
+        me.game.world.addChild(me.pool.pull("santa", 60, me.game.viewport.height/2 - 100), 10);
 
         //inputs
         me.input.bindPointer(me.input.pointer.LEFT, me.input.KEY.SPACE);
@@ -52,7 +51,6 @@ game.PlayScreen = me.ScreenObject.extend({
         me.audio.stopTrack('theme');
         // free the stored instance
         this.HUD = null;
-        this.bird = null;
 
         me.input.unbindKey(me.input.KEY.SPACE);
         me.input.unbindPointer(me.input.pointer.LEFT);
