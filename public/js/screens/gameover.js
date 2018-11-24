@@ -80,8 +80,8 @@ game.GameOverScreen = me.ScreenObject.extend({
                 var textFont =  this.font.measureText(renderer, text);
                 this.font.draw(
                     renderer,"    " + text,
-                     me.game.viewport.width/2 - textFont.width/2 - 65,
-                     me.game.viewport.height/2 + margin - 230
+                     me.game.viewport.width/2 + 32,
+                     me.game.viewport.height/3
                 );
                 for (var i = 0; i < me.save.rows.length; i++){
 					var stepsTxt = "" + me.save.rows[i].step;
@@ -99,8 +99,8 @@ game.GameOverScreen = me.ScreenObject.extend({
                     this.font.draw(
                         renderer,
                         pos + "   " + text,
-                        me.game.viewport.width/2 - textFont.width/2 - 50,
-                        me.game.viewport.height/2 + margin - 140
+                        me.game.viewport.width/2 + 73,
+                        me.game.viewport.height/3 + margin + 110
                     );
                     margin = margin + 27;
                 }

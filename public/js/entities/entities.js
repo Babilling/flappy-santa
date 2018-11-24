@@ -1,4 +1,4 @@
-var veldemerde = -5;
+let speed = -5;
 game.SantaEntity = me.Entity.extend({
     init: function(x, y) {
 
@@ -9,17 +9,21 @@ game.SantaEntity = me.Entity.extend({
         this.renderable = game.santaTexture.createAnimationFromName([
             "santa", "santa2"
         ]);
-        this.renderable.addAnimation("flying", [0, 1]);
+        this.renderable.addAnimation("flying", [0, 1],200);
         this.renderable.setCurrentAnimation("flying");
 
-		veldemerde = -5;
         this.alwaysUpdate = true;
         this.body.gravity = 0.2;
-        this.maxAngleRotation = Number.prototype.degToRad(-30);
-        this.maxAngleRotationDown = Number.prototype.degToRad(35);
+        this.maxAngleRotation = me.Math.degToRad(-30);
+        this.maxAngleRotationDown = me.Math.degToRad(35);
         //this.renderable.anchorPoint = new me.Vector2d(0.1, 0.5);
+        this.renderable.anchorPoint = {"x" : 0, "y" : 0};
+        this.anchorPoint = {"x" : 0, "y" : 0};
+        this.body.addShape(new me.Ellipse(0, 0, 50, 60));
+        this.body.addShape(new me.Rect(this.renderable.height/3, -5, this.renderable.width/2, 37));
         this.body.removeShapeAt(0);
-        this.body.addShape(new me.Ellipse(5, 5, 99, 59));
+        //this.body.addShape(new me.Ellipse(5, 5, 99, 59));
+
 
         // a tween object for the flying physic effect
        // this.flyTween = new me.Tween(this.pos);
@@ -48,16 +52,16 @@ game.SantaEntity = me.Entity.extend({
             return this._super(me.Entity, 'update', [dt]);
         }
         this.renderable.currentTransform.identity();
-        if (me.input.isKeyPressed('fly',0.2)) {
+        if (me.input.isKeyPressed('fly')) {
             me.audio.play('wing');
             var currentPos = this.pos.y;
-            this.velY = -this.jumpForce
+            this.velY = -this.jumpForce;
         } else {
             this.pos.y += this.velY;
             this.velY += this.gravityForce;
         }
         // This is not the best solution, should be changed ...
-        this.currentAngle = this.velY * 0.02;
+        this.currentAngle = this.velY * 0.01;
 
         this.renderable.currentTransform.rotate(this.currentAngle);
         me.Rect.prototype.updateBounds.apply(this);
@@ -94,10 +98,12 @@ game.SantaEntity = me.Entity.extend({
         if (obj.type === 'hit') {
             me.game.world.removeChildNow(obj);
             game.data.steps++;
-			if (game.data.steps % 200 < 10 && game.data.steps > 200)
-				veldemerde = veldemerde - 0.5;
-			else 
-				veldemerde = -5;
+            if (game.data.steps % 40 < 10 && game.data.steps >= 40 && game.data.steps < 200)
+                speed = speed - 0.5;
+			else if (game.data.steps % 200 < 15 && game.data.steps >= 200)
+				speed = speed - 0.7;
+			else
+				speed = -5;
             me.audio.play('hit',0.2);
             var random = Math.random();
 			if (random > 0.99)
@@ -113,14 +119,15 @@ game.SantaEntity = me.Entity.extend({
 
     endAnimation: function() {
         me.game.viewport.fadeOut("#fff", 100);
-        var currentPos = this.pos.y;
+        let currentPos = this.pos.y;
         this.endTween = new me.Tween(this.pos);
         this.endTween.easing(me.Tween.Easing.Exponential.InOut);
-
+        this.renderable.anchorPoint = {"x" : 0.5, "y" : 0.5};
+        this.anchorPoint = {"x" : 0.5, "y" : 0.5};
         //this.flyTween.stop();
         this.renderable.currentTransform.identity();
-        this.renderable.currentTransform.rotate(Number.prototype.degToRad(90));
-        var finalPos = me.game.viewport.height - this.renderable.width/2 - 96;
+        this.renderable.currentTransform.rotate(me.Math.degToRad(90));
+        let finalPos = me.game.viewport.height - this.renderable.width/2 - 96;
         this.endTween
             .to({y: currentPos}, 1000)
             .to({y: finalPos}, 1000)
@@ -145,8 +152,13 @@ game.PipeEntity = me.Entity.extend({
         this._super(me.Entity, 'init', [x, y, settings]);
         this.alwaysUpdate = true;
         this.body.gravity = 0;
-        this.body.vel.set(-5, 0);
+        this.body.vel.set(speed, 0);
         this.type = 'pipe';
+        //this.body.removeShapeAt(0);
+        this.body.addShape(new me.Ellipse(settings.width/2, settings.width/2, settings.width, settings.width));
+        this.body.addShape(new me.Ellipse(settings.width/2, settings.height-(settings.width/2), settings.width, settings.width));
+        this.body.addShape(new me.Rect((settings.width/3)*2, settings.width, settings.width/3, settings.height-settings.width));
+        this.body.removeShapeAt(0);
     },
 
     update: function(dt) {
@@ -159,7 +171,7 @@ game.PipeEntity = me.Entity.extend({
         if (this.pos.x < -this.image.width) {
             me.game.world.removeChild(this);
         }
-		this.body.vel.set(veldemerde, 0);
+		this.body.vel.set(speed, 0);
 		
         me.Rect.prototype.updateBounds.apply(this);
         this._super(me.Entity, 'update', [dt]);
@@ -174,24 +186,28 @@ game.PipeGenerator = me.Renderable.extend({
         this.alwaysUpdate = true;
         this.generate = 0;
         this.pipeFrequency = 92;
-        this.pipeHoleSize = 1340;
+        this.pipeHoleSize = 1350;
         this.posX = me.game.viewport.width;
     },
 
     update: function(dt) {
         if (this.generate++ % this.pipeFrequency == 0) {
-            var posY = Number.prototype.random(
+            var posY = me.Math.random(
                     me.video.renderer.getHeight() - 20,
                     200
             );
-			if (game.data.steps > 40 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1290) {
+            // plus facile au debut
+			if (game.data.steps >= 20 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1290) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
 			}
+			// on complique à partir de 140
+            if (game.data.steps >= 140 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1250) {
+                this.pipeHoleSize = this.pipeHoleSize - 10;
+            }
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);
-            var hitPos = posY - 100;
-            var hit = new me.pool.pull("hit", this.posX, hitPos);
+            var hit = new me.pool.pull("hit", this.posX + (pipe1.width/2), 0);
             //pipe1.renderable.currentTransform.scaleY(-1);
             me.game.world.addChild(pipe1, 10);
             me.game.world.addChild(pipe2, 10);
@@ -204,28 +220,20 @@ game.PipeGenerator = me.Renderable.extend({
 
 game.HitEntity = me.Entity.extend({
     init: function(x, y) {
-        var settings = {};
-        settings.image = this.image = me.loader.getImage('hit');
-        settings.width = 148;
-        settings.height= 60;
-        settings.framewidth = 148;
-        settings.frameheight = 60;
-
-        this._super(me.Entity, 'init', [x, y, settings]);
+        this._super(me.Entity, 'init', [x, y, {width : 1, height : me.game.viewport.height}]);
         this.alwaysUpdate = true;
         this.body.gravity = 0;
         this.updateTime = false;
-        this.renderable.alpha = 0;
-        this.body.accel.set(veldemerde, 0);
-        this.body.removeShapeAt(0);
-        this.body.addShape(new me.Rect(0, 0, settings.width - 30, settings.height - 30));
+        this.body.accel.set(speed, 0);
+        //this.body.removeShapeAt(0);
+        //this.body.addShape(new me.Rect(0, 0, this.width - 30, this.height - 30));
         this.type = 'hit';
     },
 
     update: function(dt) {
         // mechanics
         this.pos.add(this.body.accel);
-        if (this.pos.x < -this.image.width) {
+        if (this.pos.x < -this.width) {
             me.game.world.removeChild(this);
         }
         me.Rect.prototype.updateBounds.apply(this);

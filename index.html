@@ -62,6 +62,7 @@
         <script type="text/javascript" src="/js/melonJS-min.js" ></script>
         <!-- The game -->
         <script type="text/javascript" src="/js/game.js?v=1.2" ></script>
+        <script type="text/javascript" src="/js/debugPanel.js" ></script>
         <!-- entities -->
         <script type="text/javascript" src="/js/entities/entities.js?v=1.4" ></script>
         <script type="text/javascript" src="/js/entities/HUD.js?v=1.2" ></script>
@@ -80,7 +81,7 @@
 		</script>		
         <!-- onload trigger -->
         <script type="text/javascript">
-            window.onReady(function onReady() {
+            me.device.onReady(function onReady() {
 				if(isIE()) {
 					if (isIE()){
 					alert('Merci d\'utiliser Chrome ou Firefox pour jouer.');
