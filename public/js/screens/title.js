@@ -45,15 +45,15 @@ game.TitleScreen = me.ScreenObject.extend({
                 // size does not matter, it's just to avoid having a zero size
                 // renderable
                 this._super(me.Renderable, 'init', [0, 0, 100, 100]);
-				this.text = me.device.touch ? 'Tap to start' : 'APPUYEZ SUR ESPACE OU CLIQUE GAUCHE POUR DEMARRER' ;
+				this.text = me.device.touch ? 'TOUCHEZ L\'ECRAN POUR DEMARRER' : 'APPUYEZ SUR ESPACE OU CLIQUE GAUCHE POUR DEMARRER' ;
                 this.font = new me.Font('gamefont', 20, '#fff');
             },
             draw: function (renderer) {
                 var measure = this.font.measureText(renderer, this.text);
                 var xpos = me.game.viewport.width/2 - measure.width/2;
                 var ypos = me.game.viewport.height/2 + 50;
-                this.font.draw(renderer, this.text, xpos, ypos-50);
-				this.font.draw(renderer, "CREDITS          VOICE EFFECTS \n STEVEN           LOLO\n MAXIME", xpos+100, ypos+25);
+                this.font.draw(renderer, this.text, xpos+100, ypos);
+				this.font.draw(renderer, "CREDITS          VOICE EFFECTS \n STEVEN           LOLO\n MAXIME", xpos+100, ypos+100);
             }
         })), 12);
     },
