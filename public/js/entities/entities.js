@@ -197,11 +197,11 @@ game.PipeGenerator = me.Renderable.extend({
                     200
             );
             // plus facile au debut
-			if (game.data.steps >= 20 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1290) {
+			if (game.data.steps >= 10 && game.data.steps % 10 == 0 && this.pipeHoleSize > 1290) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
 			}
 			// on complique à partir de 140
-            if (game.data.steps >= 140 && game.data.steps % 20 == 0 && this.pipeHoleSize > 1250) {
+            if (game.data.steps >= 80 && game.data.steps % 10 == 0 && this.pipeHoleSize > 1240) {
                 this.pipeHoleSize = this.pipeHoleSize - 10;
             }
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
