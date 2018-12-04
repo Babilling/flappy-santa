@@ -1,3 +1,3 @@
 #!/bin/bash
-sed -i 's|8080|'"$PORT"'|g' $FOLDER/index.js
-cd flappybat && npm install && javascript-obfuscator ./public/js/ --output ./public/js/ && node index.js
+sed -i 's|8080|'"$PORT"'|g' flappysanta/index.js
+cd flappysanta && npm install && npm link javascript-obfuscator && javascript-obfuscator ./public/js/ --output ./public/js/ && node index.js > flappysanta.log

@@ -1,25 +1,21 @@
 {
-  "name": "clumsy-bird",
+  "name": "flappysanta",
   "version": "0.1.0",
-  "description": "Clumsy Bird - A MelonJS port of the famous Flappy Bird game",
-  "homepage": "http://ellisonleao.github.io/clumsy-bird/",
+  "description": "Flappy Santa",
+  "homepage": "https://github.com/Babilling/flappy-santa",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ellisonleao/clumsy-bird"
+    "url": "https://github.com/Babilling/flappy-santad"
   },
   "bugs": {
-    "url": "https://github.com/ellisonleao/clumsy-bird/issues"
+    "url": "https://github.com/Babilling/flappy-santa/issues"
   },
   "licenses": [
     {
       "type": "MIT License",
-      "url": "https://github.com/ellisonleao/clumsy-bird/blob/master/LICENSE"
+      "url": "https://github.com/Babilling/flappy-santa/blob/master/LICENSE"
     }
   ],
-  "author": {
-    "name": "Ellison Leão",
-    "email": "ellisonleao@gmail.com"
-  },
   "engines": {
     "node": ">= 0.8.0"
   },
@@ -27,9 +23,7 @@
     "express": "^4.15.2",
     "hash.js": "^1.1.5",
     "socket.io": "^2.1.1",
-    "sqlite3": "^4.0.2"
-  },
-  "devDependencies": {
+    "sqlite3": "^4.0.2",
     "javascript-obfuscator": "^0.18.1"
   }
 }

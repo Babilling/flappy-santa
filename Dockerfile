@@ -1,11 +1,11 @@
 FROM node:8.12.0-alpine
 
-ARG FOLDER=flappysanta
-
-COPY . /$FOLDER/
+COPY . /flappysanta/
 
 ENV PORT=8080
 
-RUN chmod +x $FOLDER/entrypoint.sh
+USER 0
 
-ENTRYPOINT ["sh","flappybat/entrypoint.sh"]
+RUN chmod +x flappysanta/entrypoint.sh
+
+ENTRYPOINT ["sh","flappysanta/entrypoint.sh"]
