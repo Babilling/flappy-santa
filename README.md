@@ -6,5 +6,5 @@ docker build -t flappysanta .
 
 - Run it from Dockerhub : 
 ```
-docker run --name flappysanta -d -p YOURPORT:8080 ascalon/games:flappysanta
+docker run --name flappysanta -d -p YOURPORT:8080 babilling/flappysanta
 ```
