@@ -9,4 +9,4 @@ RUN chmod +x flappysanta/entrypoint.sh && \
 
 HEALTHCHECK CMD netstat -an | grep 8080 > /dev/null; if [ 0 != $? ]; then exit 1; fi;
 
-ENTRYPOINT ["sh","flappysanta/entrypoint.sh"]
+ENTRYPOINT ["sh","/flappysanta/entrypoint.sh"]
