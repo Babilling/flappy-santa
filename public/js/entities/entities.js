@@ -157,7 +157,7 @@ game.PipeEntity = me.Entity.extend({
         //this.body.removeShapeAt(0);
         this.body.addShape(new me.Ellipse(settings.width/2, settings.width/2, settings.width, settings.width));
         this.body.addShape(new me.Ellipse(settings.width/2, settings.height-(settings.width/2), settings.width, settings.width));
-        this.body.addShape(new me.Rect((settings.width/3)*2, settings.width, settings.width/3, settings.height-settings.width));
+        this.body.addShape(new me.Rect((settings.width/3)*2, settings.width, settings.width/3, settings.height-(settings.width*2)));
         this.body.removeShapeAt(0);
     },
 
