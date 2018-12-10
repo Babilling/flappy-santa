@@ -224,7 +224,7 @@ game.HitEntity = me.Entity.extend({
         this.alwaysUpdate = true;
         this.body.gravity = 0;
         this.updateTime = false;
-        this.body.accel.set(speed, 0);
+        this.body.vel.set(speed, 0);
         //this.body.removeShapeAt(0);
         //this.body.addShape(new me.Rect(0, 0, this.width - 30, this.height - 30));
         this.type = 'hit';
@@ -232,14 +232,14 @@ game.HitEntity = me.Entity.extend({
 
     update: function(dt) {
         // mechanics
-        this.pos.add(this.body.accel);
+        this.pos.add(this.body.vel);
         if (this.pos.x < -this.width) {
             me.game.world.removeChild(this);
         }
+        this.body.vel.set(speed, 0);
         me.Rect.prototype.updateBounds.apply(this);
-        this._super(me.Entity, "update", [dt]);
+        this._super(me.Entity, 'update', [dt]);
         return true;
-    },
-
+    }
 });
 
