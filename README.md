@@ -9,5 +9,5 @@ docker build -t flappysanta .
 
 - Run it from Dockerhub : 
 ```
-docker run --name flappysanta -d -v myvolumedb:/flappysanta/ -v myvolumelog:/opt/log/ -p YOURPORT:8080 babilling/flappysanta
+docker run --name flappysanta -d -v myvolumedb:/flappysanta/db/ -v myvolumelog:/opt/log/ -p YOURPORT:8080 babilling/flappysanta
 ```
