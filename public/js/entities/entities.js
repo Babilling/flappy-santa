@@ -98,9 +98,9 @@ game.SantaEntity = me.Entity.extend({
         if (obj.type === 'hit') {
             me.game.world.removeChildNow(obj);
             game.data.steps++;
-            if (game.data.steps % 40 < 10 && game.data.steps >= 40 && game.data.steps < 200)
+            if (game.data.steps % 40 < 15 && game.data.steps >= 40 && game.data.steps < 100)
                 speed = speed - 0.5;
-			else if (game.data.steps % 200 < 15 && game.data.steps >= 200)
+			else if (game.data.steps % 40 < 15 && game.data.steps >= 100)
 				speed = speed - 0.7;
 			else
 				speed = -5;
@@ -186,7 +186,7 @@ game.PipeGenerator = me.Renderable.extend({
         this.alwaysUpdate = true;
         this.generate = 0;
         this.pipeFrequency = 92;
-        this.pipeHoleSize = 1350;
+        this.pipeHoleSize = 1310;
         this.posX = me.game.viewport.width;
     },
 
@@ -197,13 +197,9 @@ game.PipeGenerator = me.Renderable.extend({
                     200
             );
             // plus facile au debut
-			if (game.data.steps >= 10 && game.data.steps % 10 == 0 && this.pipeHoleSize > 1290) {
+			if (game.data.steps >= 10 && game.data.steps % 10 == 0 && this.pipeHoleSize > 1210) {
 				this.pipeHoleSize = this.pipeHoleSize - 10;
 			}
-			// on complique à partir de 140
-            if (game.data.steps >= 80 && game.data.steps % 10 == 0 && this.pipeHoleSize > 1240) {
-                this.pipeHoleSize = this.pipeHoleSize - 10;
-            }
             var posY2 = posY - me.game.viewport.height - this.pipeHoleSize;
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);
