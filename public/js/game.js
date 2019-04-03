@@ -10,9 +10,9 @@ var game = {
     resources: [
             // images
         {name: "bg", type:"image", src: "data/img/bg.png"},
-        {name: "santa", type:"image", src: "data/img/santa.png"},
-        {name: "santa", type:"json", src: "data/img/santa.json"},
-        {name: "pipe", type:"image", src: "data/img/pipe.png"},
+        {name: "character", type:"image", src: "data/img/character.png"},
+        {name: "character", type:"json", src: "data/img/character.json"},
+        {name: "pipe", type:"image", src: "data/img/fence.png"},
         {name: "logo", type:"image", src: "data/img/logo.png"},
 
         {name: "gameover", type:"image", src: "data/img/gameover.png"},
@@ -56,14 +56,14 @@ var game = {
         me.input.bindKey(me.input.KEY.SPACE, "fly", true);
         me.input.bindPointer(me.input.KEY.SPACE);
 
-        me.pool.register("santa", game.SantaEntity);
+        me.pool.register("character", game.CharacterEntity);
         me.pool.register("pipe", game.PipeEntity, true);
         me.pool.register("hit", game.HitEntity, true);
 
         //santa
-        game.santaTexture = new me.video.renderer.Texture(
-            me.loader.getJSON("santa"),
-            me.loader.getImage("santa")
+        game.characterTexture = new me.video.renderer.Texture(
+            me.loader.getJSON("character"),
+            me.loader.getImage("character")
         );
 
         me.state.change(me.state.MENU);

@@ -1,13 +1,13 @@
 let speed = -5;
-game.SantaEntity = me.Entity.extend({
+game.CharacterEntity = me.Entity.extend({
     init: function(x, y) {
 
         // call the super constructor
-        this._super(me.Entity, "init", [200, 140, {width : 99, height : 60}]);
+        this._super(me.Entity, "init", [200, 140, {width : 77, height : 58}]);
 
         // create an animation using the cap guy sprites, and add as renderable
-        this.renderable = game.santaTexture.createAnimationFromName([
-            "santa", "santa2"
+        this.renderable = game.characterTexture.createAnimationFromName([
+            "1", "2", "3", "4", "5", "6", "7", "8"
         ]);
         this.renderable.addAnimation("flying", [0, 1],200);
         this.renderable.setCurrentAnimation("flying");
@@ -19,8 +19,7 @@ game.SantaEntity = me.Entity.extend({
         //this.renderable.anchorPoint = new me.Vector2d(0.1, 0.5);
         this.renderable.anchorPoint = {"x" : 0, "y" : 0};
         this.anchorPoint = {"x" : 0, "y" : 0};
-        this.body.addShape(new me.Ellipse(0, 0, 50, 60));
-        this.body.addShape(new me.Rect(this.renderable.height/3, -5, this.renderable.width/2, 37));
+        this.body.addShape(new me.Ellipse(0, 0, 74, 58));
         this.body.removeShapeAt(0);
         //this.body.addShape(new me.Ellipse(5, 5, 99, 59));
 
@@ -144,9 +143,9 @@ game.PipeEntity = me.Entity.extend({
     init: function(x, y) {
         var settings = {};
         settings.image = this.image = me.loader.getImage('pipe');
-        settings.width = 148;
+        settings.width = 128;
         settings.height= 1664;
-        settings.framewidth = 148;
+        settings.framewidth = 128;
         settings.frameheight = 1664;
 
         this._super(me.Entity, 'init', [x, y, settings]);
@@ -155,10 +154,8 @@ game.PipeEntity = me.Entity.extend({
         this.body.vel.set(speed, 0);
         this.type = 'pipe';
         //this.body.removeShapeAt(0);
-        this.body.addShape(new me.Ellipse(settings.width/2, settings.width/2, settings.width, settings.width));
-        this.body.addShape(new me.Ellipse(settings.width/2, settings.height-(settings.width/2), settings.width, settings.width));
-        this.body.addShape(new me.Rect((settings.width/3)*2, settings.width, settings.width/3, settings.height-(settings.width*2)));
-        this.body.removeShapeAt(0);
+        //this.body.addShape(new me.Rect(x, y, settings.width, settings.height));
+        //this.body.removeShapeAt(0);
     },
 
     update: function(dt) {
