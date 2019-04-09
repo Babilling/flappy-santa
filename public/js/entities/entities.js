@@ -263,6 +263,8 @@ game.BonusEntity = me.Entity.extend({
         this.alwaysUpdate = true;
         this.pos.add(this.body.vel);
         this.body.vel.set(0, 0);
+        this.body.addShape(new me.Ellipse(0, 0, 37, 49));
+        this.body.removeShapeAt(0);
         this.pickedup = false;
     },
 
