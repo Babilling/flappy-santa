@@ -21,6 +21,8 @@ game.CharacterEntity = me.Entity.extend({
         this.anchorPoint = {"x" : 0, "y" : 0};
         this.body.addShape(new me.Ellipse(0, 0, 74, 58));
         this.body.removeShapeAt(0);
+
+        this.type = "character";
         //this.body.addShape(new me.Ellipse(5, 5, 99, 59));
 
 
@@ -107,12 +109,14 @@ game.CharacterEntity = me.Entity.extend({
             var random = Math.random();
 			if (random > 0.99)
 				me.audio.play('balledeboulepremium', false, null, 1);
-            else if (random > 0.9)
+            else if (random > 0.9) {
                 me.audio.play('cest du bon', false, null, 1);
+                me.game.world.addChild(me.pool.pull("bonus", me.game.viewport.width+me.Math.random(0, me.game.viewport.width/2), me.Math.random(150, 451), 5 + Math.round(game.data.steps / 10)), 9);
+            }
             else if (random > 0.8)
                 me.audio.play('onestbienla', false, null, 1);
             else if (random > 0.75)
-                me.audio.play('balle de boule', false, null, 1); 
+                me.audio.play('balle de boule', false, null, 1);
         }
     },
 
@@ -201,6 +205,9 @@ game.PipeGenerator = me.Renderable.extend({
             var pipe1 = new me.pool.pull('pipe', this.posX, posY);
             var pipe2 = new me.pool.pull('pipe', this.posX, posY2);
             var hit = new me.pool.pull("hit", this.posX + (pipe1.width/2), 0);
+            if(game.data.steps == 0 && this.generate==1) {
+                me.game.world.addChild(me.pool.pull("bonus", this.posX + (pipe1.width / 2) - 37/2, posY-150, 5), 9);
+            }
             //pipe1.renderable.currentTransform.scaleY(-1);
             me.game.world.addChild(pipe1, 10);
             me.game.world.addChild(pipe2, 10);
@@ -233,6 +240,58 @@ game.HitEntity = me.Entity.extend({
         me.Rect.prototype.updateBounds.apply(this);
         this._super(me.Entity, 'update', [dt]);
         return true;
+    }
+});
+
+/**
+ * BonusEntity : basic enemies stats
+ */
+game.BonusEntity = me.Entity.extend({
+    init: function(x, y, points) {
+        // Default params values
+        if (typeof points === 'undefined') { this.points = 20; } else {this.points = points * 2;}
+
+        var settings = {};
+        settings.image = this.image = me.loader.getImage('bonus');
+        settings.width = 37;
+        settings.height= 49;
+        settings.framewidth = 37;
+        settings.frameheight = 49;
+        // call the super constructor
+        this._super(me.Entity, "init", [x, y, settings]);
+        this.type = 'bonus';
+        this.alwaysUpdate = true;
+        this.pos.add(this.body.vel);
+        this.body.vel.set(0, 0);
+        this.pickedup = false;
+    },
+
+    update: function(dt) {
+        // mechanics
+        if (!game.data.start) {
+            return this._super(me.Entity, 'update', [dt]);
+        }
+        this.pos.add(this.body.vel);
+        if (this.pos.x < -this.width) {
+            me.game.world.removeChild(this);
+        }
+        this.body.vel.set(speed, 0);
+        me.Rect.prototype.updateBounds.apply(this);
+        me.collision.check(this);
+        this._super(me.Entity, "update", [dt]);
+        return true;
+    },
+
+    onCollision: function(response) {
+        let obj = response.b;
+        if (obj.type === 'character' && !this.pickedup){
+            this.pickedup = true;
+            game.data.steps += this.points;
+            me.game.world.removeChild(this);
+            me.audio.play("hit");
+        }
+
+        return false;
     }
 });
 

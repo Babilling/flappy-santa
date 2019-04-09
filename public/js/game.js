@@ -14,6 +14,7 @@ var game = {
         {name: "character", type:"json", src: "data/img/character.json"},
         {name: "pipe", type:"image", src: "data/img/fence.png"},
         {name: "logo", type:"image", src: "data/img/logo.png"},
+        {name: "bonus", type:"image", src: "data/img/egg.png"},
 
         {name: "gameover", type:"image", src: "data/img/gameover.png"},
 		{name: "tablo12", type:"image", src: "data/img/tablo12.png"},
@@ -59,6 +60,7 @@ var game = {
         me.pool.register("character", game.CharacterEntity);
         me.pool.register("pipe", game.PipeEntity, true);
         me.pool.register("hit", game.HitEntity, true);
+        me.pool.register("bonus", game.BonusEntity, true);
 
         //santa
         game.characterTexture = new me.video.renderer.Texture(
