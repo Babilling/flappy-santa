@@ -249,7 +249,7 @@ game.HitEntity = me.Entity.extend({
 game.BonusEntity = me.Entity.extend({
     init: function(x, y, points) {
         // Default params values
-        if (typeof points === 'undefined') { this.points = 20; } else {this.points = points * 2;}
+        if (typeof points === 'undefined') { this.points = 20; } else {this.points = points;}
 
         var settings = {};
         settings.image = this.image = me.loader.getImage('bonus');
