@@ -109,10 +109,8 @@ game.CharacterEntity = me.Entity.extend({
             var random = Math.random();
 			if (random > 0.99)
 				me.audio.play('balledeboulepremium', false, null, 1);
-            else if (random > 0.9) {
+            else if (random > 0.9)
                 me.audio.play('cest du bon', false, null, 1);
-                me.game.world.addChild(me.pool.pull("bonus", me.game.viewport.width+me.Math.random(0, me.game.viewport.width/2), me.Math.random(150, 451), 5 + Math.round(game.data.steps / 10)), 9);
-            }
             else if (random > 0.8)
                 me.audio.play('onestbienla', false, null, 1);
             else if (random > 0.75)
@@ -189,6 +187,7 @@ game.PipeGenerator = me.Renderable.extend({
         this.pipeFrequency = 92;
         this.pipeHoleSize = 1310;
         this.posX = me.game.viewport.width;
+        this.previousPipe = undefined;
     },
 
     update: function(dt) {
@@ -207,11 +206,20 @@ game.PipeGenerator = me.Renderable.extend({
             var hit = new me.pool.pull("hit", this.posX + (pipe1.width/2), 0);
             if(game.data.steps == 0 && this.generate==1) {
                 me.game.world.addChild(me.pool.pull("bonus", this.posX + (pipe1.width / 2) - 37/2, posY-150, 5), 9);
+            } else if(Math.random() > 0.9) {
+                let bonusX = me.Math.random(this.posX, this.posX + pipe1.width + this.previousPipe.pos.x);
+                let bonusY = 0;
+                if(bonusX <= this.posX + pipe1.width)
+                    bonusY = me.Math.random(posY, posY + (posY2 + this.pipeHoleSize));
+                else
+                    bonusY = me.Math.random(150, 451);
+                me.game.world.addChild(me.pool.pull("bonus", bonusX, bonusY, 5 + Math.round(game.data.steps / 10)), 9);
             }
             //pipe1.renderable.currentTransform.scaleY(-1);
             me.game.world.addChild(pipe1, 10);
             me.game.world.addChild(pipe2, 10);
             me.game.world.addChild(hit, 11);
+            this.previousPipe = pipe1;
         }
         this._super(me.Entity, "update", [dt]);
     },
