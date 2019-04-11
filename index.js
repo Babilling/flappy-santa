@@ -55,15 +55,16 @@ socket.on('start', function(){
   socket.on('step', function(pseudo, pwd, step){
 
     if (socket.started && (Date.now() - socket.date) > (step / 2)){
-	  var d = Date(Date.now()); 
+        var dateNow = Date.now();
+	  var d = Date(dateNow);
 	  a = d.toString()
       console.log(a + " Game over for " + pseudo + " : " + step + " step(s) (Game time = " + millisToMinutesAndSeconds((Date.now() - socket.date)) + ")");
       socket.started = false;
-      db.run(`UPDATE User SET step = ? where pseudo=? AND pwd=? AND step < ?`, [step, pseudo, hash.sha256().update(pwd).digest('hex'), step],
-        function(err) {
-          if (err) return console.log(err.message);
-      });
-      db.all(`SELECT pseudo, step from User order by step desc limit 12`, [],
+      db.run(`INSERT INTO User(pseudo, pwd, step, hstime) VALUES(?,?,?,?) ON CONFLICT(pseudo) DO UPDATE SET step=?, hstime=? WHERE step<?;`, [pseudo, hash.sha256().update(pwd).digest('hex'), step, dateNow, step, dateNow, step],
+          function(err) {
+            if (err) return console.log(err.message);
+        });
+      db.all(`SELECT pseudo, step from User order by step desc, hstime limit 12;`, [],
         function(err, rows) {
           if (err) return console.log(err.message);
           socket.emit("leaderboard", rows);
