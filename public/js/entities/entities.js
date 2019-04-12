@@ -9,11 +9,11 @@ game.CharacterEntity = me.Entity.extend({
         this.renderable = game.characterTexture.createAnimationFromName([
             "1", "2", "3", "4", "5", "6", "7", "8"
         ]);
-        this.renderable.addAnimation("flying", [0, 1],200);
+        this.renderable.addAnimation("flying", [0, 1, 2, 3, 4, 5, 6 ,7],200);
         this.renderable.setCurrentAnimation("flying");
 
         this.alwaysUpdate = true;
-        this.body.gravity = 0.2;
+        this.body.gravity = 0;
         this.maxAngleRotation = me.Math.degToRad(-30);
         this.maxAngleRotationDown = me.Math.degToRad(35);
         //this.renderable.anchorPoint = new me.Vector2d(0.1, 0.5);
@@ -47,7 +47,6 @@ game.CharacterEntity = me.Entity.extend({
     },
 
     update: function(dt) {
-        var that = this;
         this.pos.x = 60;
         if (!game.data.start) {
             return this._super(me.Entity, 'update', [dt]);
@@ -116,6 +115,15 @@ game.CharacterEntity = me.Entity.extend({
             else if (random > 0.75)
                 me.audio.play('balle de boule', false, null, 1);
         }
+
+        if (obj.type === 'bonus' && !obj.pickedup){
+            me.game.world.removeChildNow(obj);
+            obj.pickedup = true;
+            game.data.steps += obj.points;
+            me.audio.play("hit");
+        }
+
+        return false;
     },
 
     endAnimation: function() {
@@ -155,9 +163,10 @@ game.PipeEntity = me.Entity.extend({
         this.body.gravity = 0;
         this.body.vel.set(speed, 0);
         this.type = 'pipe';
-        //this.body.removeShapeAt(0);
-        //this.body.addShape(new me.Rect(x, y, settings.width, settings.height));
-        //this.body.removeShapeAt(0);
+        this.body.addShape(new me.Rect(82, 0, 27, settings.height-6));
+        this.body.addShape(new me.Rect(23, 0, 32, settings.height-2));
+        this.body.addShape(new me.Rect(0, 25, settings.width-3, settings.height-50));
+        this.body.removeShapeAt(0);
     },
 
     update: function(dt) {
@@ -207,15 +216,14 @@ game.PipeGenerator = me.Renderable.extend({
             if(game.data.steps == 0 && this.generate==1) {
                 me.game.world.addChild(me.pool.pull("bonus", this.posX + (pipe1.width / 2) - 37/2, posY-150, 5), 9);
             } else if(Math.random() > 0.9) {
-                let bonusX = me.Math.random(this.posX, this.posX + pipe1.width + this.previousPipe.pos.x);
+                let bonusX = me.Math.random(this.posX, this.posX + pipe1.width + this.previousPipe.pos.x - 37);
                 let bonusY = 0;
                 if(bonusX <= this.posX + pipe1.width)
-                    bonusY = me.Math.random(posY, posY + (posY2 + this.pipeHoleSize));
+                    bonusY = me.Math.random(posY, posY2 + pipe1.height);
                 else
                     bonusY = me.Math.random(150, 451);
                 me.game.world.addChild(me.pool.pull("bonus", bonusX, bonusY, 5 + Math.round(game.data.steps / 10)), 9);
             }
-            //pipe1.renderable.currentTransform.scaleY(-1);
             me.game.world.addChild(pipe1, 10);
             me.game.world.addChild(pipe2, 10);
             me.game.world.addChild(hit, 11);
@@ -290,18 +298,6 @@ game.BonusEntity = me.Entity.extend({
         me.collision.check(this);
         this._super(me.Entity, "update", [dt]);
         return true;
-    },
-
-    onCollision: function(response) {
-        let obj = response.b;
-        if (obj.type === 'character' && !this.pickedup){
-            this.pickedup = true;
-            game.data.steps += this.points;
-            me.game.world.removeChild(this);
-            me.audio.play("hit");
-        }
-
-        return false;
     }
 });
 
